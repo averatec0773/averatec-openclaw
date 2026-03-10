@@ -71,3 +71,30 @@ Hooks run shell commands at specific lifecycle events:
 |----------|---------|
 | `ANTHROPIC_API_KEY` | API key (alternative to login) |
 | `CLAUDE_MODEL` | Default model override |
+
+---
+
+## OpenClaw Gateway Config
+
+Location on server: `~/.openclaw/openclaw.json`
+
+Template (secrets redacted): [config/openclaw.json](openclaw.json)
+
+### Key Fields
+
+| Field | Description |
+|---|---|
+| `agents.defaults.model.primary` | Default model for agents |
+| `skills.load.extraDirs` | Extra directories for skill discovery |
+| `channels.discord.groupPolicy` | Guild access policy (`allowlist` / `open`) |
+| `channels.discord.streaming` | Streaming mode (`partial` / `block` / `off`) |
+| `gateway.controlUi.dangerouslyAllowHostHeaderOriginFallback` | Allow SSH tunnel access |
+
+### Installing Custom Skills (Persistent)
+
+Skills installed to `~/.openclaw/skills/` are auto-loaded via `extraDirs`:
+
+```bash
+docker compose exec --user root openclaw-gateway \
+  clawhub install <slug> --workdir /home/node/.openclaw --dir skills
+```

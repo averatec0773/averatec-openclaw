@@ -1,0 +1,41 @@
+{
+  "env": {
+    "OPENAI_API_KEY": "<YOUR_OPENAI_API_KEY>"
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "openai/gpt-5-mini"
+      }
+    }
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "skills": {
+    "load": {
+      "extraDirs": ["/home/node/.openclaw/skills"]
+    }
+  },
+  "channels": {
+    "discord": {
+      "enabled": true,
+      "token": "<YOUR_DISCORD_BOT_TOKEN>",
+      "groupPolicy": "allowlist",
+      "streaming": "partial",
+      "guilds": {
+        "<YOUR_GUILD_ID>": {
+          "requireMention": false
+        }
+      }
+    }
+  },
+  "gateway": {
+    "controlUi": {
+      "dangerouslyAllowHostHeaderOriginFallback": true
+    }
+  }
+}
