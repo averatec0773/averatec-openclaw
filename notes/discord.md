@@ -1,10 +1,10 @@
 # OpenClaw Discord Channel
 
-文档：https://docs.openclaw.ai/channels/discord
+Docs: https://docs.openclaw.ai/channels/discord
 
-## 当前配置
+## Current Configuration
 
-配置文件：`~/.openclaw/openclaw.json`（`channels.discord` 字段）
+Config file: `~/.openclaw/openclaw.json` — `channels.discord` field
 
 ```json
 {
@@ -24,44 +24,44 @@
 }
 ```
 
-- `groupPolicy: "allowlist"` — 只有 guilds 字段中列出的服务器可以使用
-- `streaming: "partial"` — 流式输出，边生成边编辑同一条消息
-- `requireMention: false` — 在该服务器中无需 @bot 即可触发
-- `dmPolicy` 未设置，默认 `"pairing"`（DM 需要配对码审批）
+- `groupPolicy: "allowlist"` — only guilds listed in the `guilds` field are allowed
+- `streaming: "partial"` — edits a single preview message as tokens arrive
+- `requireMention: false` — bot responds without needing @mention in that guild
+- `dmPolicy` not set, defaults to `"pairing"` — DM users must be approved via pairing code
 
-allowFrom 白名单：`~/.openclaw/credentials/discord-default-allowFrom.json`
+DM allowlist: `~/.openclaw/credentials/discord-default-allowFrom.json`
 
 ---
 
-## 核心配置项
+## Core Config Options
 
-### groupPolicy（服务器访问策略）
+### groupPolicy
 
-| 值 | 说明 |
+| Value | Description |
 |---|---|
-| `"allowlist"` | 只允许 guilds 字段中列出的服务器 |
-| `"open"` | 所有服务器都可以使用 |
-| `"disabled"` | 关闭所有服务器频道 |
+| `"allowlist"` | Only guilds listed in `guilds` field |
+| `"open"` | All servers allowed |
+| `"disabled"` | Guild channels disabled |
 
-### dmPolicy（私信策略）
+### dmPolicy
 
-| 值 | 说明 |
+| Value | Description |
 |---|---|
-| `"pairing"` | 默认，需要配对码审批（1小时有效） |
-| `"allowlist"` | 只允许预设用户 |
-| `"open"` | 完全开放（需配合 `allowFrom: "*"`） |
-| `"disabled"` | 关闭私信 |
+| `"pairing"` | Default — requires pairing code approval (1-hour expiry) |
+| `"allowlist"` | Pre-approved users only |
+| `"open"` | Unrestricted (requires `allowFrom: "*"`) |
+| `"disabled"` | DMs blocked |
 
-### streaming（流式输出模式）
+### streaming
 
-| 值 | 说明 |
+| Value | Description |
 |---|---|
-| `"off"` | 等全部生成完再发送 |
-| `"partial"` | 边生成边编辑同一条消息（当前使用）|
-| `"block"` | 分块发送，可配置断句方式 |
-| `"progress"` | 等同于 `partial`（跨平台别名）|
+| `"off"` | Wait for full response, then send |
+| `"partial"` | Edit a single message as tokens stream in (current) |
+| `"block"` | Send chunks with configurable break points |
+| `"progress"` | Alias for `partial` (cross-channel consistency) |
 
-### Guild 配置结构
+### Guild Configuration
 
 ```json
 {
@@ -81,27 +81,27 @@ allowFrom 白名单：`~/.openclaw/credentials/discord-default-allowFrom.json`
 
 ---
 
-## 常用调整
+## Common Adjustments
 
-### 修改配置
+### Edit config
 
 ```bash
-# 直接编辑（推荐先停止容器再编辑，或修改后重启）
+# Edit on the server (restart container after)
 docker compose exec openclaw bash
 nano ~/.openclaw/openclaw.json
 
-# 或用 openclaw CLI 设置 token
+# Or set token via CLI
 openclaw config set channels.discord.token "YOUR_TOKEN"
 ```
 
-### 配对私信用户（dmPolicy 为 pairing 时）
+### Approve a DM pairing request (when dmPolicy is "pairing")
 
-用户在私信中发送配对请求后，在容器内审批：
+After the user sends a pairing request via DM:
 ```bash
 docker compose exec openclaw openclaw pair --approve
 ```
 
-### 流式块配置（streaming: "block" 时可用）
+### Block streaming config (when streaming: "block")
 
 ```json
 {
@@ -117,7 +117,7 @@ docker compose exec openclaw openclaw pair --approve
 }
 ```
 
-### 超时配置（长任务）
+### Timeout config (for long-running tasks)
 
 ```json
 {
@@ -132,15 +132,15 @@ docker compose exec openclaw openclaw pair --approve
 
 ---
 
-## Bot 权限（创建时需要）
+## Bot Permissions Required
 
 - View Channels
 - Send Messages
 - Read Message History
 - Embed Links
 - Attach Files
-- Add Reactions（可选）
+- Add Reactions (optional)
 
-需要开启的 Intent：
+Required Intents:
 - Message Content Intent
 - Server Members Intent

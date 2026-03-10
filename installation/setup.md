@@ -68,7 +68,7 @@ chown -R 1000:1000 /root/.openclaw
 Create `.env` in the repository root:
 
 ```bash
-OPENCLAW_IMAGE=openclaw:latest
+OPENCLAW_IMAGE=openclaw:averatec-custom
 OPENCLAW_GATEWAY_TOKEN=change-me-now
 OPENCLAW_GATEWAY_BIND=lan
 OPENCLAW_GATEWAY_PORT=18789

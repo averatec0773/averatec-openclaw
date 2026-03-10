@@ -183,45 +183,45 @@ docker compose exec openclaw-gateway which wacli
 docker compose down && docker compose build && docker compose up -d
 ```
 
-## OpenClaw 自定义镜像（averatec-custom）
+## OpenClaw Custom Image (averatec-custom)
 
-### 镜像分层结构
+### Image Layers
 
-- `openclaw:latest` — 上游原始镜像（从 Docker Hub pull）
-- `openclaw:averatec-custom` — 基于 latest 的自定义镜像（由 `Dockerfile.custom` 构建）
+- `openclaw:latest` — upstream image pulled from Docker Hub
+- `openclaw:averatec-custom` — custom image built on top of latest via `Dockerfile.custom`
 
-自定义镜像定义在 `Dockerfile.custom`（备份于 averatec-openclaw repo），额外安装了：
-- `clawhub`（npm global）
-- `gh`（GitHub CLI）
+`Dockerfile.custom` is backed up in the averatec-openclaw repo. It adds:
+- `clawhub` (npm global)
+- `gh` (GitHub CLI)
 
-镜像名通过服务器 `~/openclaw/.env` 中的 `OPENCLAW_IMAGE=openclaw:averatec-custom` 控制，`.env` 被 gitignore 所以上游更新不会覆盖。
+The image name is controlled by `OPENCLAW_IMAGE=openclaw:averatec-custom` in `~/openclaw/.env` on the server. Since `.env` is gitignored, upstream updates will never overwrite it.
 
-### 正常更新流程
+### Standard Update Workflow
 
 ```bash
-# 1. 拉取最新上游镜像
+# 1. Pull the latest upstream image
 docker pull openclaw:latest
 
-# 2. 重新构建自定义层（自动基于新的 latest）
+# 2. Rebuild the custom layer on top of it
 docker compose build
 
-# 3. 重启容器
+# 3. Restart the container
 docker compose up -d
 ```
 
-### 从上游源码 build 原始镜像（通常不需要）
+### Build the Upstream Image from Source (rarely needed)
 
 ```bash
-# 仅在需要修改上游代码时使用
+# Only needed if modifying upstream source code
 docker build -f Dockerfile -t openclaw:latest .
 docker compose build
 docker compose up -d
 ```
 
-### 上游更新后各文件处理方式
+### Handling Upstream Updates
 
-| 文件 | 被 git pull 覆盖 | 处理策略 |
+| File | Overwritten by git pull | Strategy |
 |------|------|------|
-| `.env` | 不会（gitignored）| 安全，镜像名配置在此 |
-| `docker-compose.yml` | 会 | 不动它，用 env 变量控制 |
-| `Dockerfile.custom` | 会 | 手动合并，把自定义层重新加回去 |
+| `.env` | No (gitignored) | Safe — image name lives here |
+| `docker-compose.yml` | Yes | Don't modify — control via env vars |
+| `Dockerfile.custom` | Yes | Manually re-apply custom layers after merge |
