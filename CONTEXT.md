@@ -33,7 +33,7 @@ Official docs: https://docs.openclaw.ai
 | `openclaw:latest` | Upstream image from Docker Hub |
 | `openclaw:averatec-custom` | Custom image built on top via `Dockerfile.custom` |
 
-`Dockerfile.custom` adds: `clawhub` (npm global), `gh` (GitHub CLI).
+`Dockerfile.custom` adds: `clawhub` (npm global), `gh` (GitHub CLI), `gog` (Gmail CLI, steipete/gogcli), `goplaces` (Google Places CLI).
 
 The custom image name is controlled by `OPENCLAW_IMAGE=openclaw:averatec-custom` in `~/openclaw/.env` on the server.
 The `.env` is gitignored by the upstream repo — upstream `git pull` will never overwrite it.
