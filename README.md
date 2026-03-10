@@ -11,9 +11,7 @@ averatec-openclaw/
 ├── commands/
 │   └── cheatsheet.md        # Claude Code slash commands & shortcuts
 ├── skills/
-│   ├── built-in/index.md    # Built-in skill reference
-│   ├── custom/README.md     # Custom Claude Code skills (slash commands)
-│   └── clawhub.md           # ClawHub CLI reference
+│   └── clawhub.md           # ClawHub CLI reference (install, update, manage)
 ├── config/
 │   ├── settings.md          # Claude Code & OpenClaw config reference
 │   └── openclaw.json        # openclaw.json template (secrets redacted)
