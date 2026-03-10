@@ -1,37 +1,26 @@
 # averatec-openclaw
 
-Personal knowledge base for OpenClaw (self-hosted AI gateway) — setup guides, Docker management, channel configs, skill references, and command cheatsheets.
+Knowledge base for a self-hosted OpenClaw instance. Primarily intended for LLM reading
+to quickly understand the environment and assist with management tasks.
+
+**Start here:** [CONTEXT.md](CONTEXT.md) — full environment overview, paths, and current state.
+
+---
 
 ## Structure
 
 ```
 averatec-openclaw/
-├── installation/
-│   └── setup.md             # Hetzner VPS setup, Docker, custom image
-├── commands/
-│   └── cheatsheet.md        # Claude Code slash commands & shortcuts
-├── skills/
-│   └── clawhub.md           # ClawHub CLI reference (install, update, manage)
+├── CONTEXT.md               # LLM entry point: environment, setup, current state
+├── Dockerfile.custom        # Custom image definition (openclaw:averatec-custom)
 ├── config/
-│   ├── settings.md          # Claude Code & OpenClaw config reference
 │   └── openclaw.json        # openclaw.json template (secrets redacted)
-├── Dockerfile.custom        # Custom Docker image definition (averatec-custom)
+├── installation/
+│   └── setup.md             # Full setup guide (Hetzner VPS, Docker, initial config)
+├── skills/
+│   └── clawhub.md           # ClawHub CLI reference + Docker container usage
 └── notes/
-    ├── docker.md            # Docker commands + OpenClaw image management
-    ├── discord.md           # Discord channel config & options
-    ├── ssh.md               # SSH commands, tunnels, key management
-    ├── terminal-mac.md      # macOS terminal cheatsheet
-    └── tips.md              # Claude Code tips & tricks
+    ├── docker.md            # Image management, skill install, volume reference
+    ├── discord.md           # Discord channel config options
+    └── ssh.md               # SSH alias and tunnel for server access
 ```
-
-## Quick Links
-
-| Topic | File |
-|---|---|
-| VPS setup & Docker | [installation/setup.md](installation/setup.md) |
-| Docker & image management | [notes/docker.md](notes/docker.md) |
-| Discord channel | [notes/discord.md](notes/discord.md) |
-| SSH & tunnels | [notes/ssh.md](notes/ssh.md) |
-| ClawHub skills | [skills/clawhub.md](skills/clawhub.md) |
-| OpenClaw config | [config/settings.md](config/settings.md) |
-| Command cheatsheet | [commands/cheatsheet.md](commands/cheatsheet.md) |
