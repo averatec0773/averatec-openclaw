@@ -68,24 +68,38 @@ chown -R 1000:1000 /root/.openclaw
 Create `.env` in the repository root:
 
 ```bash
+# Image
 OPENCLAW_IMAGE=openclaw:averatec-custom
-OPENCLAW_GATEWAY_TOKEN=change-me-now
+
+# Gateway
+OPENCLAW_GATEWAY_TOKEN=<generate: openssl rand -hex 32>
 OPENCLAW_GATEWAY_BIND=lan
 OPENCLAW_GATEWAY_PORT=18789
 
+# Paths
 OPENCLAW_CONFIG_DIR=/root/.openclaw
 OPENCLAW_WORKSPACE_DIR=/root/.openclaw/workspace
-
-GOG_KEYRING_PASSWORD=change-me-now
 XDG_CONFIG_HOME=/home/node/.openclaw
+
+# ClawHub skill registry CLI (get token at clawhub.ai)
+CLAWHUB_TOKEN=<your clawhub token>
+
+# Google — Gmail/Calendar via OAuth (see notes/gog.md for headless setup)
+GOG_KEYRING_PASSWORD=<any password — encrypts the token file>
+GOG_ACCOUNT=<your gmail address>
+
+# Google Places API key (separate from OAuth; get at console.cloud.google.com)
+GOOGLE_PLACES_API_KEY=<your google places api key>
 ```
 
-Generate secure values:
+Generate secure token:
 
 ```bash
 openssl rand -hex 32
 ```
 
+> **Note:** All vars in `.env` are automatically injected into the container via `env_file: - .env` in `docker-compose.yml`. No need to duplicate them elsewhere.
+>
 > **Warning:** Never commit `.env` to version control.
 
 ---
@@ -189,11 +203,23 @@ USER root
 RUN npm install -g clawhub
 RUN apt-get update && apt-get install -y gh && rm -rf /var/lib/apt/lists/*
 
+RUN GOPLACES_URL=$(curl -s https://api.github.com/repos/steipete/goplaces/releases/latest \
+  | grep "browser_download_url.*linux_amd64.tar.gz" | cut -d '"' -f 4) \
+  && curl -L "$GOPLACES_URL" | tar -xz -C /usr/local/bin \
+  && chmod +x /usr/local/bin/goplaces
+
+RUN GOGCLI_URL=$(curl -s https://api.github.com/repos/steipete/gogcli/releases/latest \
+  | grep "browser_download_url.*linux_amd64.tar.gz" | cut -d '"' -f 4) \
+  && curl -L "$GOGCLI_URL" | tar -xz --no-anchored -C /usr/local/bin gog \
+  && chmod +x /usr/local/bin/gog
+
 USER node
 ```
 
 > The base image runs as the `node` user by default, which has no write access to `/usr/local/lib/node_modules/`.
 > Switch to `root` before installing, then switch back to `node` afterward.
+>
+> The actual `Dockerfile.custom` is version-controlled in this repo root.
 
 Then point `docker-compose.yml` to it:
 
@@ -241,6 +267,49 @@ ssh -N -L 18789:127.0.0.1:18789 root@YOUR_VPS_IP
 ```
 
 Open: `http://127.0.0.1:18789/` (use your `OPENCLAW_GATEWAY_TOKEN` to authenticate)
+
+---
+
+### Step 10 — Post-launch: Authenticate Services
+
+#### GitHub CLI (gh)
+
+```bash
+docker compose exec --user root openclaw-gateway gh auth login
+```
+
+#### ClawHub
+
+```bash
+docker compose exec --user root openclaw-gateway \
+  clawhub login --token <YOUR_CLAWHUB_TOKEN>
+```
+
+#### Google (gog — Gmail/Calendar)
+
+Headless OAuth requires an SSH tunnel. Full instructions: [notes/gog.md](../notes/gog.md)
+
+Short version:
+1. Run `gog auth` on the server host (not inside container)
+2. Tunnel the callback port from local machine via SSH
+3. Complete OAuth in local browser
+4. Copy token files into the container
+5. Add `GOG_KEYRING_PASSWORD` and `GOG_ACCOUNT` to `.env`, then `docker compose up -d`
+
+---
+
+### Step 11 — Install Skills (persistent)
+
+```bash
+# Install a skill into the persistent config volume
+docker compose exec --user root openclaw-gateway \
+  clawhub install <slug> --workdir /home/node/.openclaw --dir skills
+
+# Verify
+docker compose exec -w /home/node/.openclaw openclaw-gateway clawhub list
+```
+
+Skills are auto-loaded via `skills.load.extraDirs` in `openclaw.json`.
 
 ---
 

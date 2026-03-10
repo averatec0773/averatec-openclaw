@@ -1,4 +1,7 @@
 {
+  "meta": {
+    "lastTouchedVersion": "2026.3.9"
+  },
   "env": {
     "OPENAI_API_KEY": "<YOUR_OPENAI_API_KEY>"
   },
