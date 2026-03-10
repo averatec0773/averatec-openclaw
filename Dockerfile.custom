@@ -1,0 +1,8 @@
+FROM openclaw:latest
+
+USER root
+
+RUN npm install -g clawhub
+RUN apt-get update && apt-get install -y gh && rm -rf /var/lib/apt/lists/*
+
+USER node
