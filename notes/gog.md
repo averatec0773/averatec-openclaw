@@ -17,7 +17,7 @@ GOG_KEYRING_PASSWORD=openclaw        # encrypts the token file; value is arbitra
 GOG_ACCOUNT=ayetek0773@gmail.com     # default account; removes need for --account flag
 ```
 
-`GOG_ACCOUNT` is injected via `docker-compose.override.yml` (not in upstream `docker-compose.yml`).
+Both vars are picked up automatically via `env_file: - .env` in `docker-compose.yml` — no override needed.
 
 This is already configured. Token file lives at `/home/node/.openclaw/gogcli/keyring/` (config volume, persistent).
 
