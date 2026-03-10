@@ -22,5 +22,6 @@ averatec-openclaw/
 └── notes/
     ├── docker.md            # Image management, skill install, volume reference
     ├── discord.md           # Discord channel config options
+    ├── gog.md               # Google OAuth setup (headless server)
     └── ssh.md               # SSH alias and tunnel for server access
 ```

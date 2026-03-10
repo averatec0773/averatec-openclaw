@@ -79,6 +79,18 @@ After editing `openclaw.json`: `docker compose restart`
 
 ---
 
+## Authenticated Services
+
+| Service | Account | Storage | Notes |
+|---|---|---|---|
+| Google (gog) | `ayetek0773@gmail.com` | `/home/node/.openclaw/gogcli/keyring/` | File keyring, `GOG_KEYRING_PASSWORD` in `.env` |
+| GitHub (gh) | `averatec0773` | `/home/node/.openclaw/gh/hosts.yml` | Token-based |
+| ClawHub | `averatec0773` | `/home/node/.openclaw/clawhub/config.json` | Token in `.env` |
+
+Re-auth process for gog: [notes/gog.md](notes/gog.md)
+
+---
+
 ## Active Channels
 
 | Channel | Status | Notes |
