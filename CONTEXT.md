@@ -45,11 +45,19 @@ ssh openclaw
 cd ~/openclaw
 
 docker compose build          # rebuild custom image layer
-docker compose up -d          # start
+docker compose up -d          # start / recreate (picks up .env changes)
 docker compose down           # stop
-docker compose restart        # restart (picks up openclaw.json changes)
+docker compose restart        # soft restart (picks up openclaw.json changes only)
 docker compose logs -f openclaw-gateway
 ```
+
+### When to restart
+
+| Change | Action |
+|---|---|
+| Edit `openclaw.json` | `docker compose restart` |
+| Edit `.env` | `docker compose up -d` (recreates container) |
+| Rebuild image (`Dockerfile.custom`) | `docker compose build && docker compose up -d` |
 
 ---
 
@@ -84,6 +92,7 @@ After editing `openclaw.json`: `docker compose restart`
 | Service | Account | Storage | Notes |
 |---|---|---|---|
 | Google (gog) | `ayetek0773@gmail.com` | `/home/node/.openclaw/gogcli/keyring/` | File keyring, `GOG_KEYRING_PASSWORD` in `.env` |
+| Google Places (goplaces) | — | — | API key, `GOOGLE_PLACES_API_KEY` in `.env` |
 | GitHub (gh) | `averatec0773` | `/home/node/.openclaw/gh/hosts.yml` | Token-based |
 | ClawHub | `averatec0773` | `/home/node/.openclaw/clawhub/config.json` | Token in `.env` |
 
