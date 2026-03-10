@@ -183,6 +183,45 @@ docker compose exec openclaw-gateway which wacli
 docker compose down && docker compose build && docker compose up -d
 ```
 
+## OpenClaw Skill Management (clawhub)
+
+Skills must be installed into `/home/node/.openclaw/skills/` to be persistent and auto-loaded.
+This path is on the config volume (`/root/.openclaw/` on host) and is registered in `openclaw.json` via `skills.load.extraDirs`.
+
+```bash
+# Install a skill (persistent, auto-loaded by openclaw)
+docker compose exec --user root openclaw-gateway \
+  clawhub install <slug> --workdir /home/node/.openclaw --dir skills
+
+# List installed skills
+docker compose exec -w /home/node/.openclaw openclaw-gateway clawhub list
+
+# Update all skills
+docker compose exec --user root openclaw-gateway \
+  clawhub update --all --workdir /home/node/.openclaw --dir skills
+
+# Login with token (run once; credentials saved in config volume)
+docker compose exec --user root openclaw-gateway \
+  clawhub login --token <YOUR_CLAWHUB_TOKEN>
+```
+
+### Volume Mapping Reference
+
+| Container path | Host path | Persistent |
+|---|---|---|
+| `/home/node/.openclaw/` | `/root/.openclaw/` | Yes — config volume |
+| `/home/node/.openclaw/skills/` | `/root/.openclaw/skills/` | Yes — user skills here |
+| `/home/node/.openclaw/workspace/` | `/root/.openclaw/workspace/` | Yes — agent context |
+| `/app/skills/` | *(none)* | No — baked into image |
+
+### Currently Installed Skills
+
+| Skill | Version | Path |
+|---|---|---|
+| `self-improving-agent` | 3.0.0 | `/home/node/.openclaw/skills/` |
+
+---
+
 ## OpenClaw Custom Image (averatec-custom)
 
 ### Image Layers

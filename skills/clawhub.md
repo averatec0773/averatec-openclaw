@@ -1,7 +1,7 @@
-# ClawHub — Prerequisite for Installing Skills
+# ClawHub — Skill Registry for OpenClaw
 
 > ClawHub is the official public skill registry for OpenClaw.
-> You need the `clawhub` CLI before you can install, update, or publish any skills.
+> The `clawhub` CLI is required to install, update, or publish skills.
 >
 > Registry: https://clawhub.ai — Reference: https://docs.openclaw.ai/tools/clawhub
 
@@ -15,8 +15,7 @@ npm i -g clawhub
 pnpm add -g clawhub
 ```
 
-By default, skills are installed into `./skills` in your working directory,
-or fall back to the OpenClaw workspace config path.
+Already included in `openclaw:averatec-custom` via `Dockerfile.custom`.
 
 ---
 
@@ -26,19 +25,46 @@ or fall back to the OpenClaw workspace config path.
 clawhub login            # opens browser flow
 clawhub login --token <token>   # token-based login
 clawhub logout
-clawhub whoami           # check who you are logged in as
+clawhub whoami           # check current logged-in user
 ```
+
+Token is stored in `CLAWHUB_TOKEN` in the server `.env` for reference.
+Credentials are saved in the config volume — persist across container rebuilds.
 
 ---
 
-## Search & Install
+## Usage Inside the OpenClaw Docker Container
+
+Skills must be installed into `/home/node/.openclaw/skills/` — this is the persistent config volume and is registered in `openclaw.json` via `skills.load.extraDirs`.
 
 ```bash
-# Search the registry
+# Install a skill (persistent + auto-loaded by openclaw)
+docker compose exec --user root openclaw-gateway \
+  clawhub install <slug> --workdir /home/node/.openclaw --dir skills
+
+# List installed skills
+docker compose exec -w /home/node/.openclaw openclaw-gateway clawhub list
+
+# Update all skills
+docker compose exec --user root openclaw-gateway \
+  clawhub update --all --workdir /home/node/.openclaw --dir skills
+
+# Login (run once — credentials persist in config volume)
+docker compose exec --user root openclaw-gateway \
+  clawhub login --token <YOUR_CLAWHUB_TOKEN>
+```
+
+> **Why `--user root`?** The container runs as `node` by default, which has no write access to the config directory.
+> **Why not `/app/skills/`?** That path is inside the image layer — it disappears on container rebuild.
+
+---
+
+## Search & Install (generic)
+
+```bash
 clawhub search "postgres backups"
 clawhub search "git" --limit 10
 
-# Install a skill
 clawhub install <slug>
 clawhub install <slug> --version 1.2.3
 clawhub install <slug> --force     # overwrite existing
@@ -49,21 +75,9 @@ clawhub install <slug> --force     # overwrite existing
 ## Update
 
 ```bash
-# Update a specific skill
 clawhub update <slug>
-clawhub update <slug> --version 1.3.0
-
-# Update all installed skills
 clawhub update --all
 clawhub update --all --no-input    # non-interactive (CI-friendly)
-```
-
----
-
-## List Installed Skills
-
-```bash
-clawhub list    # reads from .clawhub/lock.json
 ```
 
 ---
@@ -114,24 +128,3 @@ clawhub undelete <slug> --yes
 | `CLAWHUB_CONFIG_PATH` | Custom config file path |
 | `CLAWHUB_WORKDIR` | Default working directory |
 | `CLAWHUB_DISABLE_TELEMETRY=1` | Opt out of telemetry |
-
----
-
-## Typical Workflow
-
-```bash
-# 1. Install the CLI (one time)
-npm i -g clawhub
-
-# 2. Log in (one time)
-clawhub login
-
-# 3. Search for a skill
-clawhub search "github"
-
-# 4. Install it
-clawhub install steipete/clawdhub
-
-# 5. Keep skills up to date
-clawhub update --all
-```

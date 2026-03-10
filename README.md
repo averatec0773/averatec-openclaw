@@ -1,24 +1,39 @@
 # averatec-openclaw
 
-Personal knowledge base for Claude Code (OpenClaw) — installation notes, command cheatsheets, skill references, and custom skills.
+Personal knowledge base for OpenClaw (self-hosted AI gateway) — setup guides, Docker management, channel configs, skill references, and command cheatsheets.
 
 ## Structure
 
 ```
 averatec-openclaw/
-├── installation/        # Setup & install guides
-├── commands/            # Common command cheatsheets
+├── installation/
+│   └── setup.md             # Hetzner VPS setup, Docker, custom image
+├── commands/
+│   └── cheatsheet.md        # Claude Code slash commands & shortcuts
 ├── skills/
-│   ├── built-in/        # Built-in skill references
-│   └── custom/          # My own custom skills (.md files)
-├── config/              # Settings & hooks reference
-└── notes/               # Tips, tricks, and misc notes
+│   ├── built-in/index.md    # Built-in skill reference
+│   ├── custom/README.md     # Custom Claude Code skills (slash commands)
+│   └── clawhub.md           # ClawHub CLI reference
+├── config/
+│   ├── settings.md          # Claude Code & OpenClaw config reference
+│   └── openclaw.json        # openclaw.json template (secrets redacted)
+├── Dockerfile.custom        # Custom Docker image definition (averatec-custom)
+└── notes/
+    ├── docker.md            # Docker commands + OpenClaw image management
+    ├── discord.md           # Discord channel config & options
+    ├── ssh.md               # SSH commands, tunnels, key management
+    ├── terminal-mac.md      # macOS terminal cheatsheet
+    └── tips.md              # Claude Code tips & tricks
 ```
 
 ## Quick Links
 
-- [Installation](installation/setup.md)
-- [Command Cheatsheet](commands/cheatsheet.md)
-- [Built-in Skills](skills/built-in/index.md)
-- [Custom Skills](skills/custom/README.md)
-- [Config Reference](config/settings.md)
+| Topic | File |
+|---|---|
+| VPS setup & Docker | [installation/setup.md](installation/setup.md) |
+| Docker & image management | [notes/docker.md](notes/docker.md) |
+| Discord channel | [notes/discord.md](notes/discord.md) |
+| SSH & tunnels | [notes/ssh.md](notes/ssh.md) |
+| ClawHub skills | [skills/clawhub.md](skills/clawhub.md) |
+| OpenClaw config | [config/settings.md](config/settings.md) |
+| Command cheatsheet | [commands/cheatsheet.md](commands/cheatsheet.md) |
