@@ -1,0 +1,4 @@
+services:
+  openclaw-gateway:
+    environment:
+      - GOG_ACCOUNT=${GOG_ACCOUNT}

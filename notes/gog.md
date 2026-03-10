@@ -11,10 +11,13 @@ Installed in `openclaw:averatec-custom` via `Dockerfile.custom`.
 
 Headless servers have no system keyring. gog must use the **file keyring backend** with a password.
 
-Two required entries in `~/openclaw/.env`:
+Required entries in `~/openclaw/.env`:
 ```
-GOG_KEYRING_PASSWORD=openclaw    # encrypts the token file; value is arbitrary
+GOG_KEYRING_PASSWORD=openclaw        # encrypts the token file; value is arbitrary
+GOG_ACCOUNT=ayetek0773@gmail.com     # default account; removes need for --account flag
 ```
+
+`GOG_ACCOUNT` is injected via `docker-compose.override.yml` (not in upstream `docker-compose.yml`).
 
 This is already configured. Token file lives at `/home/node/.openclaw/gogcli/keyring/` (config volume, persistent).
 
