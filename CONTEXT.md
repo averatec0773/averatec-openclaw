@@ -95,8 +95,25 @@ After editing `openclaw.json`: `docker compose restart`
 | Google Places (goplaces) | — | — | API key, `GOOGLE_PLACES_API_KEY` in `.env` |
 | GitHub (gh) | `averatec0773` | `/home/node/.openclaw/gh/hosts.yml` | Token-based |
 | ClawHub | `averatec0773` | `/home/node/.openclaw/clawhub/config.json` | Token in `.env` |
+| Tavily Search | — | — | API key, `TAVILY_API_KEY` in `openclaw.json` env section |
 
 Re-auth process for gog: [notes/gog.md](notes/gog.md)
+
+---
+
+## Web Search & Networking
+
+Three ways the bot can access the internet:
+
+| Method | Tool | Requires | Notes |
+|---|---|---|---|
+| `web_search` | Tavily/Brave Search API | `TAVILY_API_KEY` in `openclaw.json` | Best for open-ended queries |
+| `web_fetch` | Built-in HTTP fetch | Nothing | Requires known URL; may fail on JS-heavy pages |
+| `browser` | Chromium (headless) | Chromium in image or remote browser service | Not configured on VPS |
+
+**After adding `TAVILY_API_KEY` to `openclaw.json`:** run `docker compose down && docker compose up -d` (full recreate required — `docker compose restart` is not enough for env changes).
+
+Tavily free tier: 1000 queries/month, no credit card required. Sign up at tavily.com.
 
 ---
 
