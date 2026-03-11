@@ -1,5 +1,7 @@
 # OpenClaw Setup Context — averatec
 
+> Docs: https://docs.openclaw.ai/start/getting-started | https://docs.openclaw.ai/install/hetzner
+
 This repository is a knowledge base for understanding and managing a self-hosted OpenClaw instance.
 Read this file first to understand the environment.
 
