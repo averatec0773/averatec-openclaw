@@ -25,6 +25,7 @@ averatec-openclaw/
 │   ├── discord.md           # Discord channel config
 │   ├── gog.md               # Google OAuth setup (headless server)
 │   ├── models.md            # LLM provider reference (Claude, OpenAI, etc.)
+│   ├── skills.md            # Skills & workspace files structure reference
 │   └── ssh.md               # SSH alias and tunnel
 └── assets/
     └── logo.jpg             # Project logo
