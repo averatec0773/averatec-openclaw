@@ -103,5 +103,6 @@ Currently installed: `self-improving-agent`
 | Skill | Version | Source | Location |
 |---|---|---|---|
 | `self-improving-agent` | 3.0.0 | clawhub | `/home/node/.openclaw/skills/` |
+| `discord` | 1.0.1 | clawhub (steipete) | `/home/node/.openclaw/skills/` |
 | `openai-image-gen` | bundled | image | `/app/skills/` |
 | (other bundled skills) | bundled | image | `/app/skills/` |
