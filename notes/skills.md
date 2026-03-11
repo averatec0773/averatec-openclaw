@@ -105,6 +105,7 @@ Currently installed: `self-improving-agent`
 | `self-improving-agent` | 3.0.0 | clawhub | `/home/node/.openclaw/skills/` |
 | `discord` | 1.0.1 | clawhub (steipete) | `/home/node/.openclaw/skills/` |
 | `averatec-discord` | 1.0.0 | averatec-skills (custom) | `/home/node/.openclaw/skills/` |
+| `averatec-backup` | 1.0.0 | averatec-skills (custom) | `/home/node/.openclaw/skills/` |
 | `openai-image-gen` | bundled | image | `/app/skills/` |
 | (other bundled skills) | bundled | image | `/app/skills/` |
 
@@ -117,7 +118,8 @@ Personal skill library: https://github.com/averatec0773/averatec-skills
 Structure:
 ```
 averatec-skills/
-└── averatec-discord/SKILL.md    → averatec-discord skill
+├── averatec-discord/SKILL.md    → Discord DM/channel messaging
+└── averatec-backup/SKILL.md     → Workspace backup to private GitHub repo
 ```
 
 ### Deploying a custom skill to server
