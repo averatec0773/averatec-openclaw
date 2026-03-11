@@ -1,43 +1,67 @@
 <div align="center">
-  <img src="assets/logo.jpg" alt="OpenClaw Logo" width="160" />
+  <img src="assets/logo.jpg" alt="averatec-openclaw" width="140" />
   <h1>averatec-openclaw</h1>
-  <p>Self-hosted OpenClaw AI gateway — knowledge base for LLM-assisted management</p>
+  <p>Personal deployment of <a href="https://openclaw.ai">OpenClaw</a> — self-hosted AI gateway with custom Docker setup, Discord, Gmail, Google Places, and web search.</p>
+
+  <img src="https://img.shields.io/badge/OpenClaw-CC2233?style=flat-square&logo=openaigym&logoColor=white" />
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white" />
+  <img src="https://img.shields.io/badge/Node.js_22-339933?style=flat-square&logo=nodedotjs&logoColor=white" />
+  <img src="https://img.shields.io/badge/Hetzner_VPS-D50C2D?style=flat-square&logo=hetzner&logoColor=white" />
 </div>
 
 ---
 
-Read [CONTEXT.md](CONTEXT.md) first — full environment overview, paths, credentials, and current state.
+## Overview
 
-## Structure
+This repo documents my personal OpenClaw setup on a Hetzner VPS — including deployment notes, config references, and custom skills. It is **not** the OpenClaw source code; it is a knowledge base for managing and extending my own instance.
+
+> Secrets live in `~/openclaw/.env` and `~/.openclaw/openclaw.json` on the server — never committed.
+
+## What's Included
+
+- **Custom Docker image** on top of `openclaw:latest`, adding `clawhub`, `gh`, `gog`, `goplaces`
+- **Discord integration** — guild allowlist, no mention required
+- **Web search** via Tavily API
+- **Google Workspace** via OAuth (`gog`) — Gmail, Calendar, Drive
+- **Google Places** search via `goplaces` CLI
+- **Multi-model support** — Claude, GPT, Gemini, Mistral, Ollama and 15+ providers
+
+## Skills
+
+Custom skills for this instance are maintained in a separate repo:
+
+**[averatec/averatec-skills](https://github.com/averatec0773/averatec-skills)** — personal OpenClaw skill library
+
+Skills are installed via [ClawHub](skills/clawhub.md) into the running container. See [notes/skills.md](notes/skills.md) for workspace structure and file locations.
+
+## Repository Structure
 
 ```
 averatec-openclaw/
-├── CONTEXT.md               # LLM entry point: environment, setup, current state
-├── Dockerfile.custom        # Custom image definition (openclaw:averatec-custom)
+├── CONTEXT.md               # Full environment overview, paths, and current state
+├── Dockerfile.custom        # Custom image definition
 ├── config/
-│   └── openclaw.json        # openclaw.json template (secrets redacted)
+│   └── openclaw.json        # Config template (secrets redacted)
 ├── installation/
-│   └── setup.md             # Full deployment guide (Hetzner VPS, Docker, initial config)
+│   └── setup.md             # Deployment guide — Hetzner VPS, Docker, initial setup
 ├── skills/
-│   └── clawhub.md           # ClawHub CLI reference + Docker container usage
+│   └── clawhub.md           # ClawHub CLI reference
 ├── notes/
-│   ├── docker.md            # Image management, skill install, volume reference
+│   ├── docker.md            # Image management and volume reference
 │   ├── discord.md           # Discord channel config
 │   ├── gog.md               # Google OAuth setup (headless server)
-│   ├── models.md            # LLM provider reference (Claude, OpenAI, etc.)
-│   ├── skills.md            # Skills & workspace files structure reference
+│   ├── models.md            # LLM provider reference
+│   ├── skills.md            # Skills and workspace file structure
 │   └── ssh.md               # SSH alias and tunnel
 └── assets/
-    └── logo.jpg             # Project logo
+    └── logo.jpg
 ```
 
-## What's inside
+## Getting Started
 
-- **Custom Docker image** on top of `openclaw:latest`, adding `clawhub`, `gh`, `gog` (Gmail/Calendar), `goplaces`
-- **Discord integration** via guild allowlist, no mention required
-- **Web search** via Tavily API
-- **Google Workspace** access via OAuth (gog) — Gmail, Calendar, Drive
-- **Google Places** search via `goplaces` CLI
-- **Multi-model support** — Claude (Anthropic), GPT (OpenAI), Gemini, Mistral, Ollama, 15+ providers
+Start with [CONTEXT.md](CONTEXT.md) for a full environment overview, then follow [installation/setup.md](installation/setup.md) for deployment steps.
 
-> Secrets live in `~/openclaw/.env` and `~/.openclaw/openclaw.json` on the server — never committed.
+## Related
+
+- [OpenClaw Documentation](https://docs.openclaw.ai)
+- [averatec-skills](https://github.com/averatec0773/averatec-skills) — my custom skill library
