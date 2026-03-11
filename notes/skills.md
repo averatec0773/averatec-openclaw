@@ -104,5 +104,40 @@ Currently installed: `self-improving-agent`
 |---|---|---|---|
 | `self-improving-agent` | 3.0.0 | clawhub | `/home/node/.openclaw/skills/` |
 | `discord` | 1.0.1 | clawhub (steipete) | `/home/node/.openclaw/skills/` |
+| `averatec-discord` | 1.0.0 | averatec-skills (custom) | `/home/node/.openclaw/skills/` |
 | `openai-image-gen` | bundled | image | `/app/skills/` |
 | (other bundled skills) | bundled | image | `/app/skills/` |
+
+---
+
+## Custom Skills Repo (averatec-skills)
+
+Personal skill library: https://github.com/averatec0773/averatec-skills
+
+Structure:
+```
+averatec-skills/
+└── discord/SKILL.md    → averatec-discord skill
+```
+
+### Deploying a custom skill to server
+
+```bash
+# Copy SKILL.md to skills dir (persistent config volume)
+ssh openclaw "mkdir -p /root/.openclaw/skills/<skill-name>"
+scp path/to/SKILL.md openclaw:/root/.openclaw/skills/<skill-name>/SKILL.md
+# OpenClaw hot-reloads — no restart needed
+```
+
+### Required env vars for averatec-discord
+
+`DISCORD_BOT_TOKEN` is set in `openclaw.json` env section (same value as `channels.discord.token`).
+
+### averatec-discord capabilities
+
+- Proactive DM to owner (auto-creates DM channel)
+- Send message to any channel
+- Send embed messages
+- Reply to a message
+- Add reactions
+- Read recent messages
