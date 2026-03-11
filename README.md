@@ -24,6 +24,7 @@ averatec-openclaw/
 │   ├── docker.md            # Image management, skill install, volume reference
 │   ├── discord.md           # Discord channel config
 │   ├── gog.md               # Google OAuth setup (headless server)
+│   ├── models.md            # LLM provider reference (Claude, OpenAI, etc.)
 │   └── ssh.md               # SSH alias and tunnel
 └── assets/
     └── logo.jpg             # Project logo
@@ -36,5 +37,6 @@ averatec-openclaw/
 - **Web search** via Tavily API
 - **Google Workspace** access via OAuth (gog) — Gmail, Calendar, Drive
 - **Google Places** search via `goplaces` CLI
+- **Multi-model support** — Claude (Anthropic), GPT (OpenAI), Gemini, Mistral, Ollama, 15+ providers
 
 > Secrets live in `~/openclaw/.env` and `~/.openclaw/openclaw.json` on the server — never committed.
