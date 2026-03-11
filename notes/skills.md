@@ -117,7 +117,7 @@ Personal skill library: https://github.com/averatec0773/averatec-skills
 Structure:
 ```
 averatec-skills/
-└── discord/SKILL.md    → averatec-discord skill
+└── averatec-discord/SKILL.md    → averatec-discord skill
 ```
 
 ### Deploying a custom skill to server

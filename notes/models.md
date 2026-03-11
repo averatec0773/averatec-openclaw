@@ -14,13 +14,13 @@ Primary model configured in `/root/.openclaw/openclaw.json`:
 "agents": {
   "defaults": {
     "model": {
-      "primary": "openai/gpt-5-mini"
+      "primary": "openai/gpt-5.4"
     }
   }
 }
 ```
 
-To switch models, update `primary` and `docker compose restart`.
+To switch models, update `primary` in `openclaw.json` — **hot reloads automatically**, no restart needed.
 
 ---
 
@@ -87,7 +87,7 @@ OpenClaw supports 15+ providers total. Notable ones:
 
 ## Switching Models at Runtime
 
-Change in `openclaw.json` and restart:
+Change in `openclaw.json` — hot reloads automatically (no restart needed for model changes):
 
 ```bash
 # Edit on server
@@ -96,11 +96,11 @@ python3 -c "
 import json
 with open('/root/.openclaw/openclaw.json') as f:
     c = json.load(f)
-c['agents']['defaults']['model']['primary'] = 'anthropic/claude-sonnet-4-6'
+c['agents']['defaults']['model']['primary'] = 'openai/gpt-5.4'
 with open('/root/.openclaw/openclaw.json', 'w') as f:
     json.dump(c, f, indent=2)
 "
-cd ~/openclaw && docker compose restart
+# openclaw hot-reloads — no restart needed
 ```
 
 Or ask the bot directly in Discord:
