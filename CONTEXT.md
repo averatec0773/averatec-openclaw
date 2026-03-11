@@ -91,7 +91,7 @@ After editing `openclaw.json`: `docker compose restart`
 
 | Service | Account | Storage | Notes |
 |---|---|---|---|
-| Google (gog) | `ayetek0773@gmail.com` | `/home/node/.openclaw/gogcli/keyring/` | File keyring, `GOG_KEYRING_PASSWORD` in `.env` |
+| Google (gog) | set via `GOG_ACCOUNT` in `.env` | `/home/node/.openclaw/gogcli/keyring/` | File keyring, `GOG_KEYRING_PASSWORD` in `.env` |
 | Google Places (goplaces) | — | — | API key, `GOOGLE_PLACES_API_KEY` in `.env` |
 | GitHub (gh) | `averatec0773` | `/home/node/.openclaw/gh/hosts.yml` | Token-based |
 | ClawHub | `averatec0773` | `/home/node/.openclaw/clawhub/config.json` | Token in `.env` |

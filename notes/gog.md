@@ -13,15 +13,15 @@ Headless servers have no system keyring. gog must use the **file keyring backend
 
 Required entries in `~/openclaw/.env`:
 ```
-GOG_KEYRING_PASSWORD=openclaw        # encrypts the token file; value is arbitrary
-GOG_ACCOUNT=ayetek0773@gmail.com     # default account; removes need for --account flag
+GOG_KEYRING_PASSWORD=<your-keyring-password>   # encrypts the token file; value is arbitrary
+GOG_ACCOUNT=<your-gmail-address>              # default account; removes need for --account flag
 ```
 
 Both vars are picked up automatically via `env_file: - .env` in `docker-compose.yml` — no override needed.
 
 This is already configured. Token file lives at `/home/node/.openclaw/gogcli/keyring/` (config volume, persistent).
 
-Authorized account: `ayetek0773@gmail.com`
+Authorized account: set via `GOG_ACCOUNT` in `.env`
 
 ---
 
@@ -33,7 +33,7 @@ OAuth callback requires a browser. Since the server is headless, use an SSH tunn
 # 1. On the server: set file keyring and start auth
 ssh openclaw
 /tmp/gog auth keyring file   # only needed once
-GOG_KEYRING_PASSWORD=openclaw /tmp/gog auth add ayetek0773@gmail.com
+GOG_KEYRING_PASSWORD=<your-keyring-password> /tmp/gog auth add <your-gmail-address>
 # Note the port in the output, e.g. 127.0.0.1:40055
 
 # 2. On local machine: tunnel that port
@@ -48,7 +48,7 @@ docker cp /root/.config/gogcli/. openclaw:/home/node/.openclaw/gogcli/
 docker compose exec --user root openclaw-gateway chown -R node:node /home/node/.openclaw/gogcli/
 
 # 5. Verify
-docker compose exec openclaw-gateway bash -c 'GOG_KEYRING_PASSWORD=openclaw gog auth list'
+docker compose exec openclaw-gateway bash -c 'GOG_KEYRING_PASSWORD=<your-keyring-password> gog auth list'
 ```
 
 > Note: `gog` binary on the server is at `/tmp/gog` (temporary). The permanent one is inside the container at `/usr/local/bin/gog`.
