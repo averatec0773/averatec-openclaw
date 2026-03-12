@@ -39,7 +39,8 @@ Skills are installed via [ClawHub](skills/clawhub.md) into the running container
 ```
 averatec-openclaw/
 ├── CONTEXT.md               # Full environment overview, paths, and current state
-├── Dockerfile.custom        # Custom image definition
+├── Dockerfile.custom        # Custom image definition (adds clawhub, gh, gog, goplaces)
+├── docker-compose.yml       # Container configuration (references .env for secrets)
 ├── config/
 │   └── openclaw.json        # Config template (secrets redacted)
 ├── installation/
@@ -52,7 +53,9 @@ averatec-openclaw/
 │   ├── gog.md               # Google OAuth setup (headless server)
 │   ├── models.md            # LLM provider reference
 │   ├── skills.md            # Skills and workspace file structure
-│   └── ssh.md               # SSH alias and tunnel
+│   ├── ssh.md               # SSH alias and tunnel
+│   ├── todo.md              # Known issues and future improvements
+│   └── updating.md          # Update procedure for Docker-based setup
 └── assets/
     └── logo.jpg
 ```
