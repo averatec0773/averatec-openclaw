@@ -55,7 +55,13 @@ averatec-openclaw/
 │   ├── skills.md            # Skills and workspace file structure
 │   ├── ssh.md               # SSH alias and tunnel
 │   ├── todo.md              # Known issues and future improvements
-│   └── updating.md          # Update procedure for Docker-based setup
+│   ├── updating.md          # Update procedure for Docker-based setup
+│   └── workspace-files.md   # Workspace md file usage rules (AGENTS, SOUL, TOOLS, etc.)
+├── templates/
+│   ├── AGENTS.md            # Generalized AGENTS.md template
+│   ├── SOUL.md              # Generalized SOUL.md template
+│   ├── TOOLS.md             # Generalized TOOLS.md template
+│   └── USER.md              # Generalized USER.md template
 └── assets/
     └── logo.jpg
 ```

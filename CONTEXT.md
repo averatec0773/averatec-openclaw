@@ -80,7 +80,7 @@ Config file on server: `~/.openclaw/openclaw.json`
 Template (secrets redacted): [config/openclaw.json](config/openclaw.json)
 
 Key settings in use:
-- `agents.defaults.model.primary` → `openai/gpt-5-mini`
+- `agents.defaults.model.primary` → `openai/gpt-5.4`
 - `skills.load.extraDirs` → `["/home/node/.openclaw/skills"]` (makes user skills auto-loaded)
 - `channels.discord` → enabled, `groupPolicy: allowlist`, `streaming: partial`
 - `gateway.controlUi.dangerouslyAllowHostHeaderOriginFallback` → `true` (required for SSH tunnel access)
@@ -129,9 +129,12 @@ Tavily free tier: 1000 queries/month, no credit card required. Sign up at tavily
 
 ## Installed Skills
 
-| Skill | Version | Path | Loaded by |
+| Skill | Version | Source | Path |
 |---|---|---|---|
-| `self-improving-agent` | 3.0.0 | `/home/node/.openclaw/skills/` | `extraDirs` config |
+| `self-improving-agent` | 3.0.0 | clawhub | `/home/node/.openclaw/skills/` |
+| `discord` | 1.0.1 | clawhub (steipete) | `/home/node/.openclaw/skills/` |
+| `averatec-discord` | 1.0.0 | averatec-skills | `/home/node/.openclaw/skills/` |
+| `averatec-email` | 1.0.0 | averatec-skills | `/home/node/.openclaw/skills/` |
 
 Built-in skills (image layer, `/app/skills/`): 1password, apple-notes, canvas, clawhub, coding-agent,
 discord, gemini, gh-issues, github, healthcheck, notion, obsidian, openai-image-gen, openai-whisper,

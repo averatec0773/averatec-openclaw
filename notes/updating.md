@@ -10,14 +10,20 @@ We run `openclaw:averatec-custom` built on top of `openclaw:latest`. The officia
 
 ```bash
 ssh openclaw "cd ~/openclaw && \
-  docker compose pull && \
-  docker compose build && \
+  git stash && \
+  git pull --rebase && \
+  git stash pop && \
+  docker build -t openclaw:latest . && \
+  docker build -f Dockerfile.custom -t openclaw:averatec-custom . && \
   docker compose up -d"
 ```
 
-1. `docker compose pull` — pulls new `openclaw:latest` base image
-2. `docker compose build` — rebuilds `openclaw:averatec-custom` (reinstalls clawhub, gh, goplaces, gog)
-3. `docker compose up -d` — restarts container with new image
+1. `git stash / pull --rebase / stash pop` — pull latest source (stash handles local `docker-compose.yml` changes)
+2. `docker build -t openclaw:latest .` — build base image from source
+3. `docker build -f Dockerfile.custom ...` — rebuild custom layer (clawhub, gh, goplaces, gog)
+4. `docker compose up -d` — recreate container with new image
+
+> **Why not `docker compose pull`?** `openclaw:latest` and `openclaw:averatec-custom` are built locally from source — not published to any registry. `docker compose pull` will fail with `pull access denied`.
 
 After restart: re-approve device pairing in dashboard (`openclaw devices approve <requestId>`).
 
