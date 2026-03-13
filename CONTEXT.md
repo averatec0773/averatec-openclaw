@@ -20,7 +20,7 @@ Official docs: https://docs.openclaw.ai
 
 | Component | Value |
 |---|---|
-| VPS provider | Hetzner (~$5/month, Ubuntu) |
+| VPS provider | Hetzner (Ubuntu) |
 | SSH alias | `openclaw` (configured in `~/.ssh/config`) |
 | Working directory on server | `~/openclaw/` |
 | Gateway port | `18789` (loopback only, access via SSH tunnel) |
@@ -68,9 +68,19 @@ docker compose logs -f openclaw-gateway
 | Container path | Host path | Persistent |
 |---|---|---|
 | `/home/node/.openclaw/` | `/root/.openclaw/` | Yes — config, credentials |
-| `/home/node/.openclaw/skills/` | `/root/.openclaw/skills/` | Yes — user-installed skills |
-| `/home/node/.openclaw/workspace/` | `/root/.openclaw/workspace/` | Yes — agent context files |
-| `/app/skills/` | *(none)* | No — baked into image |
+| `/home/node/.openclaw/skills/` | `/root/.openclaw/skills/` | Yes — global managed skills (shared across all agents) |
+| `/home/node/.openclaw/workspace/` | `/root/.openclaw/workspace/` | Yes — main agent workspace files |
+| `/app/skills/` | *(none)* | No — bundled skills, baked into image |
+
+### Skills Scope
+
+| Location | Scope | Managed by |
+|---|---|---|
+| `/app/skills/` | All agents (bundled, read-only) | Image / OpenClaw upstream |
+| `/home/node/.openclaw/skills/` | All agents (global) | `clawhub install` |
+| `<workspace>/skills/` | Agent-specific only | Manual / scp |
+
+Agent-specific skills (placed inside a workspace's `skills/` subfolder) take precedence over global and bundled skills with the same name. The `main` agent uses `workspace/skills/`; the `public` agent uses `workspace-public/skills/`.
 
 ---
 
@@ -186,13 +196,45 @@ docker compose exec --user root openclaw-gateway \
 
 ## Access
 
-SSH tunnel (run on local machine):
+### SSH Alias Setup
+
+Add the following to `~/.ssh/config` on your local machine (replace `<VPS_IP>` with your server's IP):
+
+```
+Host openclaw
+    HostName <VPS_IP>
+    User root
+    Port 22
+    IdentityFile ~/.ssh/id_ed25519
+    ServerAliveInterval 60
+
+Host tunnel-openclaw
+    HostName <VPS_IP>
+    User root
+    LocalForward 18789 127.0.0.1:18789
+    ServerAliveInterval 60
+```
+
+After saving, `ssh openclaw` works from anywhere without specifying IP or key.
+
+See [notes/ssh.md](notes/ssh.md) for file transfer (`scp`) examples.
+
+### Shell Access
+
+```bash
+ssh openclaw                    # open shell on server
+```
+
+### Dashboard (Control UI)
+
+Option A — one-off tunnel:
 ```bash
 ssh -N -L 18789:127.0.0.1:18789 openclaw
 ```
-Then open: `http://127.0.0.1:18789/`
 
-Direct server access:
+Option B — use the `tunnel-openclaw` alias (stays connected):
 ```bash
-ssh openclaw
+ssh tunnel-openclaw
 ```
+
+Then open: `http://127.0.0.1:18789/`
