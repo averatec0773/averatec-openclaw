@@ -133,7 +133,7 @@ scp path/to/SKILL.md openclaw:/root/.openclaw/skills/<skill-name>/SKILL.md
 
 ### Required env vars for averatec-discord
 
-`DISCORD_BOT_TOKEN` is set in `openclaw.json` env section (same value as `channels.discord.token`).
+`DISCORD_PRIVATE_BOT_TOKEN` is set in `openclaw.json` env section (same value as `channels.discord.token`).
 
 ### Discord skill division
 
