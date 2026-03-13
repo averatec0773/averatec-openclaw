@@ -14,7 +14,7 @@ Two Discord bots are configured under `channels.discord.accounts`, each routing 
     "discord": {
       "enabled": true,
       "accounts": {
-        "bot-a": {
+        "default": {
           "token": "$DISCORD_PRIVATE_BOT_TOKEN",
           "groupPolicy": "allowlist",
           "streaming": "partial",
@@ -22,7 +22,7 @@ Two Discord bots are configured under `channels.discord.accounts`, each routing 
             "<GUILD_ID>": { "requireMention": false }
           }
         },
-        "bot-b": {
+        "public": {
           "token": "$DISCORD_PUBLIC_BOT_TOKEN",
           "groupPolicy": "allowlist",
           "streaming": "partial",
@@ -34,8 +34,8 @@ Two Discord bots are configured under `channels.discord.accounts`, each routing 
     }
   },
   "bindings": [
-    { "agentId": "main",   "match": { "channel": "discord", "accountId": "bot-a" } },
-    { "agentId": "public", "match": { "channel": "discord", "accountId": "bot-b" } }
+    { "agentId": "main",   "match": { "channel": "discord", "accountId": "default" } },
+    { "agentId": "public", "match": { "channel": "discord", "accountId": "public" } }
   ]
 }
 ```

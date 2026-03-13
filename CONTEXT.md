@@ -139,7 +139,7 @@ Two agents running on the same gateway instance, each with its own Discord bot a
 **Routing:** `bindings` array in `openclaw.json`, matched by `accountId` — each Discord bot account routes to its agent.
 
 ```json
-{ "agentId": "main",   "match": { "channel": "discord", "accountId": "private" } },
+{ "agentId": "main",   "match": { "channel": "discord", "accountId": "default" } },
 { "agentId": "public", "match": { "channel": "discord", "accountId": "public" } }
 ```
 
