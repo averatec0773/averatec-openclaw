@@ -129,32 +129,35 @@ Tavily free tier: 1000 queries/month, no credit card required. Sign up at tavily
 
 ## Multi-Agent Setup
 
-Two agents running on the same gateway instance, routed by Discord context:
+Two agents running on the same gateway instance, each with its own Discord bot and workspace:
 
-| Agent | ID | Model | Workspace | Scope |
-|---|---|---|---|---|
-| Private | `main` | `openai/gpt-5.4` | `workspace/` | Scott's DMs only |
-| Public | `public` | `openai/gpt-5-mini` | `workspace-public/` | All guild messages |
+| Agent ID | Model | Workspace | Scope |
+|---|---|---|---|
+| `main` | `openai/gpt-5.4` | `workspace/` | Owner DMs (via bot A) |
+| `public` | `openai/gpt-5-mini` | `workspace-public/` | Guild messages (via bot B) |
 
-**Routing (bindings in `openclaw.json`):**
-- `peer: { kind: "direct", id: "360785034438901761" }` on Discord → `main` (Scott's DM)
-- All other Discord messages → `public`
+**Routing:** `bindings` array in `openclaw.json`, matched by `accountId` — each Discord bot account routes to its agent.
 
-**Public agent restrictions:**
+```json
+{ "agentId": "main",   "match": { "channel": "discord", "accountId": "private" } },
+{ "agentId": "public", "match": { "channel": "discord", "accountId": "public" } }
+```
+
+**`public` agent restrictions:**
 - `tools.deny: ["exec", "bash", "computer"]` — no shell access
-- Workspace has no USER.md, no MEMORY.md — no personal context loaded
+- No USER.md, no MEMORY.md in workspace — no personal context loaded
 - Model: `gpt-5-mini` (cheaper for public traffic)
 
 **Directory structure:**
 ```
 /root/.openclaw/
-├── workspace/            ← main agent (private)
-├── workspace-public/     ← public agent
+├── workspace/            ← main agent workspace
+├── workspace-public/     ← public agent workspace
 │   ├── SOUL.md           ← public persona, mentions averatec as creator
 │   └── AGENTS.md         ← simplified rules, no MEMORY.md loading
 └── agents/
     ├── main/sessions/
-    └── public/sessions/  ← created on first message
+    └── public/sessions/
 ```
 
 ---

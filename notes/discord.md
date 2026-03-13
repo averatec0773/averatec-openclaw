@@ -6,21 +6,37 @@ Docs: https://docs.openclaw.ai/channels/discord
 
 Config file: `~/.openclaw/openclaw.json` — `channels.discord` field
 
+Two Discord bots are configured under `channels.discord.accounts`, each routing to a different agent via `bindings`.
+
 ```json
 {
   "channels": {
     "discord": {
       "enabled": true,
-      "token": "<BOT_TOKEN>",
-      "groupPolicy": "allowlist",
-      "streaming": "partial",
-      "guilds": {
-        "<GUILD_ID>": {
-          "requireMention": false
+      "accounts": {
+        "bot-a": {
+          "token": "$DISCORD_PRIVATE_BOT_TOKEN",
+          "groupPolicy": "allowlist",
+          "streaming": "partial",
+          "guilds": {
+            "<GUILD_ID>": { "requireMention": false }
+          }
+        },
+        "bot-b": {
+          "token": "$DISCORD_PUBLIC_BOT_TOKEN",
+          "groupPolicy": "allowlist",
+          "streaming": "partial",
+          "guilds": {
+            "<GUILD_ID>": { "requireMention": false }
+          }
         }
       }
     }
-  }
+  },
+  "bindings": [
+    { "agentId": "main",   "match": { "channel": "discord", "accountId": "bot-a" } },
+    { "agentId": "public", "match": { "channel": "discord", "accountId": "bot-b" } }
+  ]
 }
 ```
 
@@ -30,6 +46,8 @@ Config file: `~/.openclaw/openclaw.json` — `channels.discord` field
 - `dmPolicy` not set, defaults to `"pairing"` — DM users must be approved via pairing code
 
 DM allowlist: `~/.openclaw/credentials/discord-default-allowFrom.json`
+
+> **Single-bot setup** (simpler alternative): Replace `accounts` with a single `token` field directly in `channels.discord`. See [Core Config Options](#core-config-options) below.
 
 ---
 
