@@ -1,33 +1,51 @@
 # Workspace Files — Usage Rules
 
-> Ref: https://docs.openclaw.ai/reference/templates/TOOLS
+> Official refs:
+> - https://docs.openclaw.ai/reference/templates/AGENTS
+> - https://docs.openclaw.ai/reference/templates/SOUL
+> - https://docs.openclaw.ai/reference/templates/TOOLS
+> - https://docs.openclaw.ai/reference/templates/HEARTBEAT
+>
 > Workspace dir on server: `/root/.openclaw/workspace/`
 
-Each file in the workspace has a specific purpose. Mixing content between files degrades agent behavior — the LLM reads each file expecting a certain type of content.
+Each file has a specific purpose. Mixing content between files degrades agent behavior — the LLM reads each file expecting a certain type of content.
 
 ---
 
 ## File-by-File Rules
 
 ### AGENTS.md — Behavioral Instructions
+
 **What belongs here:**
 - Session startup sequence (what to read, in what order)
 - Behavioral rules ("always do X", "never do Y")
 - Skill usage routing rules (which skill to use for what)
 - Memory management conventions
-- Platform-specific formatting rules (Discord, WhatsApp)
+- Platform-specific formatting rules
 - Red lines / hard limits
+- Group chat participation rules
 
 **What does NOT belong here:**
 - Infrastructure specifics (accounts, IDs) → TOOLS.md
 - Personality / tone → SOUL.md
 - User profile → USER.md
 
+**Trimming guidance:** The official template is verbose and covers many scenarios (TTS voice, WhatsApp, Twitter). Remove sections that don't apply to your actual setup — unused instructions still cost tokens every session startup.
+
+Removed from our AGENTS.md vs official template:
+- BOOTSTRAP.md First Run section (archived)
+- `sag` / ElevenLabs TTS (not installed)
+- WhatsApp formatting rules (not configured)
+- Twitter heartbeat checks (not configured)
+- Heartbeat JSON state template (HEARTBEAT.md is empty)
+- "Make It Yours" onboarding section (setup complete)
+
 ---
 
 ### TOOLS.md — Infrastructure Specifics
+
 **What belongs here:**
-- Specific accounts/emails in use (e.g. which Gmail account)
+- Specific accounts/emails in use
 - Device identifiers, SSH hosts, camera names
 - API defaults that are environment-specific
 - IDs and handles unique to this deployment (Discord guild ID, owner user ID)
@@ -44,26 +62,28 @@ Each file in the workspace has a specific purpose. Mixing content between files 
 ---
 
 ### SOUL.md — Personality & Values
+
 **What belongs here:**
 - Agent personality traits and tone
 - Core values and principles
-- Communication style preferences
-- How the agent should handle uncertainty or disagreement
+- **Response style rules** (be specific — vague guidance like "concise when needed" doesn't work)
 
 **What does NOT belong here:**
-- Specific tool configs → TOOLS.md
+- Tool configs → TOOLS.md
 - Behavioral rules → AGENTS.md
 - User info → USER.md
+
+**Note:** The official SOUL.md template is intentionally minimal — just Core Truths, Boundaries, and Vibe. It's a starting point to evolve. Add a concrete **Response Style** section with explicit rules (max length, forbidden phrases, when to go long) since LLMs default to verbose without hard constraints.
 
 ---
 
 ### USER.md — Human Profile
+
 **What belongs here:**
-- Name, preferred address
-- Timezone
-- Language/communication preferences
+- Name, preferred address, pronouns
+- Timezone and language preferences
 - GitHub, Discord handles
-- Brief context about who this person is and their workflow preferences
+- Brief context about workflow preferences
 
 **What does NOT belong here:**
 - Behavioral rules for the agent → AGENTS.md
@@ -72,37 +92,42 @@ Each file in the workspace has a specific purpose. Mixing content between files 
 ---
 
 ### MEMORY.md — Long-Term Agent Memory
+
 **What belongs here:**
 - Distilled learnings from past sessions
 - Decisions made, context behind them
 - Patterns the agent should remember across restarts
-- Updated periodically during heartbeats
 
-**Load rules (important):**
+**Load rules (critical):**
 - Load ONLY in main session (direct chat with owner)
-- Do NOT load in shared contexts (group chats, public Discord channels)
-- Reason: contains personal context that must not leak to strangers
+- Do NOT load in shared contexts (Discord channels, group chats)
+- Reason: contains personal context that must not leak to others
+
+**Maintenance:** During heartbeats, periodically review recent `memory/YYYY-MM-DD.md` files and distill key learnings into MEMORY.md. Remove outdated entries.
 
 ---
 
-### HEARTBEAT.md — Periodic Task List
+### HEARTBEAT.md — Periodic Task Checklist
+
 **What belongs here:**
-- Short checklist of things to check on each heartbeat poll
-- Reminders or time-sensitive tasks
+- Short checklist of periodic checks (email, calendar, etc.)
+- One-off reminders
 
 **Usage:**
-- Keep this file small — every line costs tokens on every heartbeat
+- Keep minimal — every line costs tokens on every heartbeat poll
 - Leave empty (or only comments) to skip heartbeat API calls entirely
-- Use cron jobs for exact-timing tasks; use HEARTBEAT.md for batched periodic checks
+- Heartbeat = batched, timing can drift; Cron = exact timing, isolated tasks
+
+**Official template content:** Just a comment line saying to add tasks below when you want the agent to check something periodically. Nothing else.
 
 ---
 
 ### IDENTITY.md — Agent Self-Definition
+
 **What belongs here:**
 - Agent's chosen name, creature type, vibe, emoji, avatar path
-- Filled in during first conversation, then persists
 
-**Note:** This file is auto-generated as a template by OpenClaw. The agent fills it in.
+**Note:** Auto-generated as a template by OpenClaw. The agent fills it in during first conversation.
 
 ---
 
@@ -110,11 +135,11 @@ Each file in the workspace has a specific purpose. Mixing content between files 
 
 | File | Status | Notes |
 |------|--------|-------|
-| `AGENTS.md` | Good | Session startup + behavioral rules + skill usage rules |
-| `TOOLS.md` | Good | Gmail account, Discord guild/user ID, timezone |
-| `SOUL.md` | Good | Default OpenClaw template, lightly customized |
+| `AGENTS.md` | Optimized | Trimmed from 168 → 93 lines; removed inapplicable sections |
+| `TOOLS.md` | Good | Gmail account, Discord guild/user ID, timezone only |
+| `SOUL.md` | Good | Official template + custom Response Style section |
 | `USER.md` | Good | Scott's profile filled in |
-| `MEMORY.md` | Active | Agent writes to this |
+| `MEMORY.md` | Active | Agent writes to this each session |
 | `HEARTBEAT.md` | Empty | No periodic tasks configured |
 | `IDENTITY.md` | Empty | Agent hasn't filled this in yet |
 
@@ -126,5 +151,7 @@ Each file in the workspace has a specific purpose. Mixing content between files 
 |---------|---------|-----|
 | Skill routing rules in TOOLS.md | LLM treats TOOLS.md as config, not instructions | Move to AGENTS.md |
 | Backup instructions in TOOLS.md | Same issue | Move to AGENTS.md |
-| Personal context in MEMORY.md loaded in group chats | Privacy leak | AGENTS.md must gate MEMORY.md to main sessions only |
+| Personal context in MEMORY.md loaded in group chats | Privacy leak | Gate MEMORY.md to main sessions in AGENTS.md |
 | Long HEARTBEAT.md | Token burn on every poll | Keep minimal |
+| Vague response style ("concise when needed") | LLM defaults to verbose | Add explicit rules in SOUL.md |
+| Keeping unused template sections in AGENTS.md | Wasted tokens per session | Remove inapplicable sections (TTS, WhatsApp, Twitter) |
