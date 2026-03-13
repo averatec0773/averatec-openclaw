@@ -135,6 +135,17 @@ scp path/to/SKILL.md openclaw:/root/.openclaw/skills/<skill-name>/SKILL.md
 
 `DISCORD_BOT_TOKEN` is set in `openclaw.json` env section (same value as `channels.discord.token`).
 
+### Discord skill division
+
+Two Discord skills installed — use the right one:
+
+| Skill | Use for |
+|---|---|
+| `averatec-discord` | **Proactive outbound** — DMs, push notifications, initiating contact |
+| `discord` (steipete) | **In-conversation** — reactions, polls, threads, pins, search, moderation |
+
+Rule: if the bot is initiating contact with no existing conversation → `averatec-discord`. If responding within an ongoing conversation → `discord`.
+
 ### averatec-discord capabilities
 
 - Proactive DM to owner (auto-creates DM channel)
