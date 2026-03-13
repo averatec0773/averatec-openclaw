@@ -94,8 +94,6 @@ docker compose exec --user root openclaw-gateway \
   clawhub update --all --workdir /home/node/.openclaw --dir skills
 ```
 
-Currently installed: `self-improving-agent`
-
 ---
 
 ## Currently Installed Skills

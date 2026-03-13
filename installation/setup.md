@@ -8,14 +8,14 @@ OpenClaw is a self-hosted gateway that connects messaging apps (WhatsApp, Telegr
 
 ---
 
-## Hetzner VPS Setup (~$5/month)
+## Hetzner VPS Setup
 
 ### Prerequisites
 
 - Hetzner VPS (Ubuntu / Debian) with root SSH access
 - SSH client on your laptop
-- Model authentication credentials
-- Optional: WhatsApp QR, Telegram bot token, Gmail OAuth
+- Model API key (OpenAI and/or Anthropic)
+- Optional: Discord bot token, Gmail OAuth, Google Places API key
 - ~20 minutes setup time
 
 ---
@@ -57,9 +57,17 @@ cd openclaw
 ### Step 4 — Create Persistent Directories
 
 ```bash
+# Single-agent setup
 mkdir -p /root/.openclaw/workspace
+
+# Multi-agent setup (add a workspace per additional agent)
+mkdir -p /root/.openclaw/workspace
+mkdir -p /root/.openclaw/workspace-public
+
 chown -R 1000:1000 /root/.openclaw
 ```
+
+> The container runs as uid 1000 (`node`). If you create directories as root, set ownership before starting the container or OpenClaw will fail to write workspace files.
 
 ---
 
@@ -243,10 +251,11 @@ docker compose up -d openclaw-gateway
 Verify binaries:
 
 ```bash
+docker compose exec openclaw-gateway which gh
 docker compose exec openclaw-gateway which gog
 docker compose exec openclaw-gateway which goplaces
-docker compose exec openclaw-gateway which wacli
-# Expected: /usr/local/bin/{gog,goplaces,wacli}
+docker compose exec openclaw-gateway which clawhub
+# Expected: /usr/bin/gh, /usr/local/bin/{gog,goplaces}, /usr/local/bin/clawhub
 ```
 
 ---
@@ -260,10 +269,21 @@ docker compose logs -f openclaw-gateway
 # Look for: "listening on ws://0.0.0.0:18789"
 ```
 
-Create SSH tunnel from your laptop:
+Set up your SSH alias first (recommended — see [notes/ssh.md](../notes/ssh.md)):
+
+```
+Host openclaw
+    HostName <VPS_IP>
+    User root
+    IdentityFile ~/.ssh/id_ed25519
+    ServerAliveInterval 60
+```
+
+Then create the SSH tunnel:
 
 ```bash
-ssh -N -L 18789:127.0.0.1:18789 root@YOUR_VPS_IP
+ssh -N -L 18789:127.0.0.1:18789 openclaw
+# or directly: ssh -N -L 18789:127.0.0.1:18789 root@YOUR_VPS_IP
 ```
 
 Open: `http://127.0.0.1:18789/` (use your `OPENCLAW_GATEWAY_TOKEN` to authenticate)
@@ -319,10 +339,10 @@ Skills are auto-loaded via `skills.load.extraDirs` in `openclaw.json`.
 |-----------|-----------|-------|
 | Gateway config | `/root/.openclaw/` | Tokens, configs |
 | Auth profiles | `/root/.openclaw/` | OAuth / API keys |
-| Skill configs | `/root/.openclaw/skills/` | Skill state |
-| Workspace | `/root/.openclaw/workspace/` | Agent artifacts |
-| WhatsApp session | `/root/.openclaw/` | QR login persistence |
-| Gmail keyring | `/root/.openclaw/` | Requires `GOG_KEYRING_PASSWORD` |
+| Global skills | `/root/.openclaw/skills/` | Managed by `clawhub`, shared across all agents |
+| Main workspace | `/root/.openclaw/workspace/` | Agent artifacts, AGENTS.md, SOUL.md, etc. |
+| Public workspace | `/root/.openclaw/workspace-public/` | Second agent workspace (multi-agent setup) |
+| Gmail keyring | `/root/.openclaw/gogcli/keyring/` | Requires `GOG_KEYRING_PASSWORD` |
 | External binaries | `/usr/local/bin/` | Baked into Docker image at build time |
 
 ---

@@ -6,7 +6,8 @@
     "OPENAI_API_KEY": "<YOUR_OPENAI_API_KEY>",
     "ANTHROPIC_API_KEY": "<YOUR_ANTHROPIC_API_KEY>",
     "TAVILY_API_KEY": "<YOUR_TAVILY_API_KEY>",
-    "DISCORD_BOT_TOKEN": "<YOUR_DISCORD_BOT_TOKEN>",
+    "DISCORD_PRIVATE_BOT_TOKEN": "<YOUR_PRIVATE_BOT_TOKEN>",
+    "DISCORD_PUBLIC_BOT_TOKEN": "<YOUR_PUBLIC_BOT_TOKEN>",
     "GITHUB_TOKEN": "<YOUR_GITHUB_PAT>",
     "TZ": "America/New_York"
   },
@@ -15,8 +16,28 @@
       "model": {
         "primary": "openai/gpt-5.4"
       }
-    }
+    },
+    "list": [
+      {
+        "id": "main",
+        "workspaceDir": "/home/node/.openclaw/workspace"
+      },
+      {
+        "id": "public",
+        "workspaceDir": "/home/node/.openclaw/workspace-public",
+        "tools": {
+          "deny": ["exec", "bash", "computer"]
+        },
+        "model": {
+          "primary": "openai/gpt-5-mini"
+        }
+      }
+    ]
   },
+  "bindings": [
+    { "agentId": "main",   "match": { "channel": "discord", "accountId": "default" } },
+    { "agentId": "public", "match": { "channel": "discord", "accountId": "public" } }
+  ],
   "commands": {
     "native": "auto",
     "nativeSkills": "auto",
@@ -31,12 +52,22 @@
   "channels": {
     "discord": {
       "enabled": true,
-      "token": "<YOUR_DISCORD_BOT_TOKEN>",
-      "groupPolicy": "allowlist",
-      "streaming": "partial",
-      "guilds": {
-        "<YOUR_GUILD_ID>": {
-          "requireMention": false
+      "accounts": {
+        "default": {
+          "token": "$DISCORD_PRIVATE_BOT_TOKEN",
+          "groupPolicy": "allowlist",
+          "streaming": "partial",
+          "guilds": {
+            "<YOUR_GUILD_ID>": { "requireMention": false }
+          }
+        },
+        "public": {
+          "token": "$DISCORD_PUBLIC_BOT_TOKEN",
+          "groupPolicy": "allowlist",
+          "streaming": "partial",
+          "guilds": {
+            "<YOUR_GUILD_ID>": { "requireMention": false }
+          }
         }
       }
     }

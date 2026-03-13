@@ -7,7 +7,7 @@
 ### Image Layers
 
 - `openclaw:latest` — upstream image from Docker Hub
-- `openclaw:averatec-custom` — built on top via `Dockerfile.custom`, adds `clawhub` + `gh`
+- `openclaw:averatec-custom` — built on top via `Dockerfile.custom`, adds `clawhub`, `gh`, `gog`, `goplaces`
 
 `Dockerfile.custom` is version-controlled in this repo.
 Image name is set via `OPENCLAW_IMAGE=openclaw:averatec-custom` in `~/openclaw/.env` (gitignored, safe from upstream overwrites).
@@ -57,10 +57,18 @@ docker compose exec --user root openclaw-gateway \
 
 | Container path | Host path | Persistent |
 |---|---|---|
-| `/home/node/.openclaw/` | `/root/.openclaw/` | Yes |
-| `/home/node/.openclaw/skills/` | `/root/.openclaw/skills/` | Yes |
-| `/home/node/.openclaw/workspace/` | `/root/.openclaw/workspace/` | Yes |
-| `/app/skills/` | *(none)* | No — image layer |
+| `/home/node/.openclaw/` | `/root/.openclaw/` | Yes — config, credentials |
+| `/home/node/.openclaw/skills/` | `/root/.openclaw/skills/` | Yes — global skills (all agents) |
+| `/home/node/.openclaw/workspace/` | `/root/.openclaw/workspace/` | Yes — main agent workspace |
+| `/app/skills/` | *(none)* | No — bundled skills, image layer |
+
+> `workspace-public/` (public agent) is not mapped in `docker-compose.yml` by default — it sits inside `/root/.openclaw/` which is already mounted as the top-level config volume.
+
+### Skills loading order (highest → lowest priority)
+
+1. `<workspace>/skills/` — agent-specific, overrides everything
+2. `/home/node/.openclaw/skills/` — global managed skills (`clawhub install`)
+3. `/app/skills/` — bundled with image (read-only)
 
 ---
 
