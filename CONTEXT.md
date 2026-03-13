@@ -133,7 +133,7 @@ Tavily free tier: 1000 queries/month, no credit card required. Sign up at tavily
 
 | Channel | Status | Notes |
 |---|---|---|
-| Discord | Active | Guild: AVERATEC-WORKPLACE, `requireMention: false` |
+| Discord | Active | Guild: AVERATEC-WORKPLACE, `requireMention: true` (both bots) |
 
 ---
 
@@ -153,7 +153,12 @@ Two agents running on the same gateway instance, each with its own Discord bot a
 { "agentId": "public", "match": { "channel": "discord", "accountId": "public" } }
 ```
 
+**`main` agent restrictions (guild channels):**
+- `requireMention: true` — only responds when @mentioned
+- `users: [<owner_id>]` — only processes messages from the owner; other users @mentioning the bot are ignored
+
 **`public` agent restrictions:**
+- `requireMention: true` — only responds when @mentioned
 - `tools.deny: ["exec", "bash", "computer"]` — no shell access
 - No USER.md, no MEMORY.md in workspace — no personal context loaded
 - Model: `gpt-5-mini` (cheaper for public traffic)

@@ -58,7 +58,10 @@
           "groupPolicy": "allowlist",
           "streaming": "partial",
           "guilds": {
-            "<YOUR_GUILD_ID>": { "requireMention": false }
+            "<YOUR_GUILD_ID>": {
+              "requireMention": true,
+              "users": ["<YOUR_DISCORD_USER_ID>"]
+            }
           }
         },
         "public": {
@@ -66,7 +69,7 @@
           "groupPolicy": "allowlist",
           "streaming": "partial",
           "guilds": {
-            "<YOUR_GUILD_ID>": { "requireMention": false }
+            "<YOUR_GUILD_ID>": { "requireMention": true }
           }
         }
       }

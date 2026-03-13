@@ -19,7 +19,10 @@ Two Discord bots are configured under `channels.discord.accounts`, each routing 
           "groupPolicy": "allowlist",
           "streaming": "partial",
           "guilds": {
-            "<GUILD_ID>": { "requireMention": false }
+            "<GUILD_ID>": {
+              "requireMention": true,
+              "users": ["<OWNER_DISCORD_USER_ID>"]
+            }
           }
         },
         "public": {
@@ -27,7 +30,7 @@ Two Discord bots are configured under `channels.discord.accounts`, each routing 
           "groupPolicy": "allowlist",
           "streaming": "partial",
           "guilds": {
-            "<GUILD_ID>": { "requireMention": false }
+            "<GUILD_ID>": { "requireMention": true }
           }
         }
       }
@@ -42,7 +45,8 @@ Two Discord bots are configured under `channels.discord.accounts`, each routing 
 
 - `groupPolicy: "allowlist"` — only guilds listed in the `guilds` field are allowed
 - `streaming: "partial"` — edits a single preview message as tokens arrive
-- `requireMention: false` — bot responds without needing @mention in that guild
+- `requireMention: true` — both bots only respond when @mentioned in guild channels
+- `users` (default account only) — restricts guild responses to the owner's Discord user ID; other users who @mention the private bot will be ignored
 - `dmPolicy` not set, defaults to `"pairing"` — DM users must be approved via pairing code
 
 DM allowlist: `~/.openclaw/credentials/discord-default-allowFrom.json`
