@@ -75,12 +75,33 @@ averatec-openclaw/
 
 ## Multi-Agent Setup
 
-Two agents share one gateway instance, each bound to a separate Discord bot via `bindings` in `openclaw.json`:
+Two agents share one gateway instance, each bound to a separate Discord bot via `bindings` in `openclaw.json`.
 
-| Agent | Bot | Workspace | Scope |
-|---|---|---|---|
-| `main` | Private bot (`accountId: default`) | `workspace/` | Owner DMs and private channels |
-| `public` | Public bot (`accountId: public`) | `workspace-public/` | Guild messages, no shell access |
+### Main (Private Agent)
+
+The default agent — a personal assistant for the owner.
+
+- **Access**: owner DMs and private Discord channels only
+- **Permissions**: full tool access — shell, file system, GitHub CLI (`gh`), Gmail/Calendar/Drive (`gog`), Google Places, web search
+- **Memory**: persistent `MEMORY.md` loaded each session; personal context never shared
+- **Model**: GPT-5.4 (primary)
+
+### Public Agent
+
+A public-facing agent for guild members and external users.
+
+- **Access**: Discord guild channels; DMs allowed (pairing required)
+- **Permissions**: restricted — no shell, no `exec`, no `bash`, no `computer` tool
+- **Memory**: no personal context loaded; stateless across users
+- **Model**: GPT-5-mini (cost-efficient for public traffic)
+
+| | `main` | `public` |
+|---|---|---|
+| Discord bot | Private bot | Public bot |
+| Workspace | `workspace/` | `workspace-public/` |
+| Shell access | ✓ | ✗ |
+| Personal memory | ✓ | ✗ |
+| Audience | Owner only | Anyone |
 
 See [CONTEXT.md](CONTEXT.md) for full routing config and [notes/discord.md](notes/discord.md) for Discord channel options.
 
