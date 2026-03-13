@@ -127,6 +127,38 @@ Tavily free tier: 1000 queries/month, no credit card required. Sign up at tavily
 
 ---
 
+## Multi-Agent Setup
+
+Two agents running on the same gateway instance, routed by Discord context:
+
+| Agent | ID | Model | Workspace | Scope |
+|---|---|---|---|---|
+| Private | `main` | `openai/gpt-5.4` | `workspace/` | Scott's DMs only |
+| Public | `public` | `openai/gpt-5-mini` | `workspace-public/` | All guild messages |
+
+**Routing (bindings in `openclaw.json`):**
+- `peer: { kind: "direct", id: "360785034438901761" }` on Discord → `main` (Scott's DM)
+- All other Discord messages → `public`
+
+**Public agent restrictions:**
+- `tools.deny: ["exec", "bash", "computer"]` — no shell access
+- Workspace has no USER.md, no MEMORY.md — no personal context loaded
+- Model: `gpt-5-mini` (cheaper for public traffic)
+
+**Directory structure:**
+```
+/root/.openclaw/
+├── workspace/            ← main agent (private)
+├── workspace-public/     ← public agent
+│   ├── SOUL.md           ← public persona, mentions averatec as creator
+│   └── AGENTS.md         ← simplified rules, no MEMORY.md loading
+└── agents/
+    ├── main/sessions/
+    └── public/sessions/  ← created on first message
+```
+
+---
+
 ## Installed Skills
 
 | Skill | Version | Source | Path |

@@ -21,15 +21,12 @@ Tracks things that work but could be better. Not urgent unless noted.
 
 ## Multi-Agent Setup
 
-**Current state:** Single agent handles all Discord messages (guild + DMs).
+**Current state:** ✅ Deployed (2026-03-12).
 
-**Planned:**
-- [ ] Add `public` agent for guild messages — restricted model, no personal tools
-- [ ] Bind Scott's DM (Discord ID `360785034438901761`) to `private` agent
-- [ ] Create `workspace-public/` with minimal SOUL.md (no USER.md, no TOOLS.md)
-- [ ] Use `agents.public.tools.deny` to block bash/exec on public agent
+- `main` agent — Scott's Discord DMs, `gpt-5.4`, full tools, private workspace
+- `public` agent — Guild messages, `gpt-5-mini`, `tools.deny: [exec, bash, computer]`, public workspace
 
-See [notes/workspace-files.md](workspace-files.md) for workspace file structure reference.
+See [CONTEXT.md](../CONTEXT.md) Multi-Agent Setup section for routing details.
 
 ---
 
