@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/logo.jpg" alt="averatec-openclaw" width="140" />
+  <img src="assets/avatar-public.jpg" alt="averatec-openclaw" width="140" />
   <h1>averatec-openclaw</h1>
   <p>Personal deployment of <a href="https://openclaw.ai">OpenClaw</a> — self-hosted AI gateway with custom Docker setup, Discord, Gmail, Google Places, and web search.</p>
 
@@ -65,7 +65,8 @@ averatec-openclaw/
 │   ├── TOOLS.md             # TOOLS.md template
 │   └── USER.md              # USER.md template
 └── assets/
-    └── logo.jpg
+    ├── avatar-main.jpg      # Main agent avatar
+    └── avatar-public.jpg    # Public agent avatar (used as repo logo)
 ```
 
 ## Getting Started
