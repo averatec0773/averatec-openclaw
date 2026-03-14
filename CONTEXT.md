@@ -185,6 +185,7 @@ Two agents running on the same gateway instance, each with its own Discord bot a
 | `discord` | 1.0.1 | clawhub (steipete) | `/home/node/.openclaw/skills/` |
 | `averatec-discord` | 1.0.0 | averatec-skills | `/home/node/.openclaw/skills/` |
 | `averatec-email` | 1.0.0 | averatec-skills | `/home/node/.openclaw/skills/` |
+| `averatec-music` | 1.0.0 | averatec-skills | `/home/node/.openclaw/skills/` |
 
 Built-in skills (image layer, `/app/skills/`): 1password, apple-notes, canvas, clawhub, coding-agent,
 discord, gemini, gh-issues, github, healthcheck, notion, obsidian, openai-image-gen, openai-whisper,

@@ -104,6 +104,7 @@ docker compose exec --user root openclaw-gateway \
 | `discord` | 1.0.1 | clawhub (steipete) | `/home/node/.openclaw/skills/` |
 | `averatec-discord` | 1.0.0 | averatec-skills (custom) | `/home/node/.openclaw/skills/` |
 | `averatec-email` | 1.0.0 | averatec-skills (custom) | `/home/node/.openclaw/skills/` |
+| `averatec-music` | 1.0.0 | averatec-skills (custom) | `/home/node/.openclaw/skills/` |
 | `openai-image-gen` | bundled | image | `/app/skills/` |
 | (other bundled skills) | bundled | image | `/app/skills/` |
 
