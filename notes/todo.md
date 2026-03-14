@@ -63,6 +63,53 @@ See [CONTEXT.md](../CONTEXT.md) Multi-Agent Setup section for routing details.
 
 ---
 
+## Agent Specialization
+
+Current agents (`main`, `public`) are general-purpose. Plan: add vertical-domain agents and sharpen existing ones.
+
+### Music Agent (new)
+
+**Why:** `public` has bash/exec denied → can't run `averatec-music` skill. `main` is a private assistant — not ideal for music-specific workflows. A dedicated music agent can have bash enabled, domain-focused tools, and a producer-oriented persona.
+
+**Proposed config:**
+- Agent ID: `music`
+- Model: `gpt-5.4` (needs tool use + reasoning for music analysis)
+- `tools.deny`: none (needs bash for Python MIDI/FLP parsing)
+- Workspace: `workspace-music/`
+- Discord binding: separate bot account, e.g. `accountId: "music"`
+- Channel access: specific guild channels (e.g. `#music-lab`), `requireMention: true`
+
+**Capabilities to build out:**
+- [ ] MIDI / FL Studio file analysis (`averatec-music` skill — already built)
+- [ ] Music theory Q&A (scales, chord progressions, arrangement advice)
+- [ ] Beat feedback (user pastes notes/structure, agent critiques)
+- [ ] Sample/plugin identification from filenames or descriptions
+- [ ] Future: audio rendering via ffmpeg + FluidSynth (MIDI → WAV)
+
+**Prerequisites:**
+- [ ] Register a third Discord bot application in Developer Portal
+- [ ] Add `music` account to `channels.discord.accounts` in `openclaw.json`
+- [ ] Add `music` entry to `agents.list`
+- [ ] Add binding: `{ "agentId": "music", "match": { "channel": "discord", "accountId": "music" } }`
+- [ ] Create `workspace-music/` and write SOUL.md, AGENTS.md, USER.md, TOOLS.md
+- [ ] Pair the new bot via Discord DM pairing flow
+
+### Agent Role Clarity (existing agents)
+
+Sharpen the vertical focus of current agents to avoid overlap:
+
+| Agent | Intended domain | Current gap |
+|---|---|---|
+| `main` | Scott's personal assistant — calendar, email, code, memory | Too general; no domain restrictions |
+| `public` | Community Q&A, general help in guild channels | No domain focus; bash disabled limits utility |
+| `music` (planned) | Music production — file analysis, theory, feedback | Not yet deployed |
+
+- [ ] Audit `main` AGENTS.md — add explicit domain strengths (dev tools, personal context, memory)
+- [ ] Audit `public` AGENTS.md — define what it's actually good for without bash (text Q&A, web search, Discord actions)
+- [ ] Consider a `code` agent for guild-facing coding help (bash enabled, sandboxed workspace)
+
+---
+
 ## Install Claude CLI on Server
 
 - [ ] Install Node.js + Claude CLI (`npm install -g @anthropic-ai/claude-code`) on the Hetzner VPS
