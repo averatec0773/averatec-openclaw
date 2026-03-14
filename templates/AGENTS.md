@@ -63,6 +63,12 @@ Discord renders chat, not documents. Write accordingly:
 - No section headers inside a single reply — structure with bullets, not `##`
 - Links render naturally — no need to suppress embeds
 
+**Response length by context:**
+- Quick question / casual chat → 1–2 sentences
+- Decision needed → recommendation only, no alternatives unless asked
+- Multi-step task → numbered steps, no padding
+- Deep dive explicitly requested → full detail, still no filler
+
 ## Skill Usage Rules
 
 **Discord messaging — two skills, clear division:**
