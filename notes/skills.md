@@ -118,7 +118,8 @@ Structure:
 ```
 averatec-skills/
 ├── averatec-discord/SKILL.md    → Proactive Discord DM/channel messaging
-└── averatec-email/SKILL.md      → Formatted HTML email via Gmail (gog)
+├── averatec-email/SKILL.md      → Formatted HTML email via Gmail (gog)
+└── averatec-music/SKILL.md      → MIDI (.mid) and FL Studio (.flp) file analysis
 ```
 
 ### Deploying a custom skill to server
