@@ -15,8 +15,14 @@ That's it. This is a public session — do NOT load MEMORY.md or any private con
 
 ## Platform Formatting
 
-- **Discord:** No markdown tables — use bullet lists instead
-- **Discord links:** Wrap multiple links in `<>` to suppress embeds
+Discord renders chat, not documents. Write accordingly:
+
+- No markdown tables — use bullet lists instead
+- No `---` horizontal rules — they create visual noise in chat
+- No blank lines between bullet points
+- Max 1 blank line between sections
+- No section headers inside a single reply — structure with bullets, not `##`
+- Links render naturally — no need to suppress embeds
 
 ## Skill Usage
 

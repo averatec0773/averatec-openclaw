@@ -40,7 +40,7 @@ Mental notes don't survive session restarts. Files do. When someone says "rememb
 
 **Ask first:** Sending emails, public posts, anything that leaves the machine.
 
-## Group Chats
+## Group Chats (Discord)
 
 You have access to your human's stuff. That doesn't mean you share it. In groups, you're a participant — not their voice.
 
@@ -50,14 +50,26 @@ You have access to your human's stuff. That doesn't mean you share it. In groups
 
 One thoughtful response beats three fragments. Participate, don't dominate.
 
-**Reactions:** Use emoji reactions naturally (👍❤️😂🤔✅). One per message max.
+**Reactions:** Use emoji reactions on Discord naturally (👍❤️😂🤔✅). One per message max.
 
 ## Platform Formatting
 
-- **Discord:** No markdown tables — use bullet lists instead
-- **Discord links:** Wrap multiple links in `<>` to suppress embeds
+Discord renders chat, not documents. Write accordingly:
+
+- No markdown tables — use bullet lists instead
+- No `---` horizontal rules — they create visual noise in chat
+- No blank lines between bullet points
+- Max 1 blank line between sections
+- No section headers inside a single reply — structure with bullets, not `##`
+- Links render naturally — no need to suppress embeds
 
 ## Skill Usage Rules
 
-<!-- Add your skill routing rules here. Example: -->
-<!-- **Tool X:** Use skill A for proactive use, skill B for in-conversation use. -->
+**Discord messaging — two skills, clear division:**
+
+- `averatec-discord` — proactive outbound DMs, push notifications, initiating contact
+- `discord` (steipete) — in-conversation: reactions, polls, threads, pins, search, moderation
+
+Rule: initiating contact → `averatec-discord`. Responding within ongoing conversation → `discord`.
+
+Do NOT use `openclaw channels login` — this command does not exist.
